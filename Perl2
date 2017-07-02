@@ -1,0 +1,32 @@
+#! /usr/bin/perl
+
+#W zadanym drzewie katalogow znaleźć dowiązania symboliczne wskazujące na pliki #regularne) o nazwie takiej jak wskazany plik regularny
+
+
+use File::Find;
+use Cwd 'abs_path';
+use File::Basename;
+
+if( @ARGV != 1 )
+{
+	die "Błędna liczba argumentów";
+}
+
+if ( ! -d  $ARGV[0] )
+{
+	die "Błędny katalog!";
+}
+
+$dir = abs_path(@ARGV);
+find ( \&wanted , $dir);
+
+sub wanted()
+{
+	$link = $_;
+	$realpath = abs_path($_);
+	$base = basename($realpath);
+	if ( -l $link and -f $realpath and $link eq $base)
+	{
+		print $File::Find::name . "\n";
+	}
+}

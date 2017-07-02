@@ -1,0 +1,15 @@
+#! /bin/bash
+#W zadanym drzewie katalogów znaleźć pliki regularne o nazwach z wieloma rozszerzeniami z których pierwsze = ostanie.
+
+if [ "$#" != "1" ] ;then
+	echo "Błędna liczba argumentów!"
+	exit 1
+fi
+
+
+if [ ! -d $1 ] ;then
+	echo "Błędny katalog!"
+	exit 2
+fi
+
+find $1 -type f -printf "%f %p\n" | awk '{split($f,tab,".")}''length(tab)> 3 && tab[2] == tab[length(tab)] {print $2}'

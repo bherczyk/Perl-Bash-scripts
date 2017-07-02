@@ -1,0 +1,29 @@
+#! /usr/bin/perl
+
+#W zadanym drzewie katalogow znaleźć pliki regularne które są własnością użytkow
+#nika wykonującego skrypt
+
+use File::Find;
+use Cwd 'abs_path';
+
+if ( @ARGV != 1 )
+{
+	die "Błędna liczba argumentów!"
+}
+
+if ( ! -d $ARGV[0] )
+{
+	die "Błędny katalog!"
+}
+
+$dir = abs_path(@ARGV);
+find ( \&wanted, $dir);
+
+sub wanted()
+{
+	$file = $File::Find::name;
+	if( -f -o $file )
+	{
+		print "$file \n";
+	}
+}

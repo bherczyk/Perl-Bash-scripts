@@ -1,0 +1,35 @@
+#! /usr/bin/perl
+
+#W zadanym pliku tekstowym znaleźć słowa o trzech pierwszych literach takich 
+#samych
+
+if (@ARGV != 1) 
+{
+	die "Błędna liczba argumentów!";
+}
+
+if (! -f $ARGV[0])
+{
+	die "Błędny plik!";
+}
+
+open(dir,$ARGV[0]) or die "Nie udało się otworzyć pliku!";
+
+for (<dir>)
+{
+	@words = split(/ /,$_);
+	for(@words)
+	{
+		$match = $_ =~ /^([a-zA-Z])\1\1.*$/;
+		if( $match )
+		{
+			chomp;
+			print "$_ \n"
+		}
+	
+	}
+
+		
+}
+
+close(dir);

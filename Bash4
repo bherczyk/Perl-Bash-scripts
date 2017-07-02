@@ -1,0 +1,16 @@
+#! /bin/bash
+#W zadanym drzewie katalogów znaleźć pliki mające dowiązania twarde, do
+#których właściciel ma prawo odczytu i zapisu a nie ma prawa wykonania,
+#natomiast grupa lub inni mają prawo wykonania.
+
+if [ "$#" != "1" ]; then
+	echo "Skrypt uruchamiany z jednym parametrem!"
+	echo exit 1
+fi
+
+if [ ! -d $1 ]; then
+	echo "Błędny katalog!"
+	exit 1
+fi
+
+find $1 -links +1 \( -perm -610 -o -perm -601 \) ! -perm -100 -print

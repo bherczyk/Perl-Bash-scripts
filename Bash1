@@ -1,0 +1,25 @@
+#! /bin/bash
+#W zadanym katalogu znaleźć i wyświetlić drugi z największych plików.
+
+if [ "$#" != "1" ] ;then
+	echo "Błędna liczba argumentów! Skrypt uruchamiany z 1 argumentem!"
+	exit 1
+fi
+
+if [ ! -d $1 ] ;then
+	echo "Nieprawidłowy katalog!"
+	exit 2
+fi
+
+count=0
+
+for plik in `ls -S $1` ;do
+	if [ ! -d $1/$plik ] ;then
+		count=$[count+1]
+	fi
+	
+	if [ $count -eq 2 ] ;then
+		cat $1/$plik
+		exit 0
+	fi
+done

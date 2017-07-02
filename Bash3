@@ -1,0 +1,30 @@
+#! /bin/bash
+#Utworzyć kopię zadanego katalogu w zadanym miejscu, przy czym wszystkie dowiązania symboliczne mają pozostać dowiązaniami.
+if [ "$#" != "2" ] ;then	
+	echo "Skrypt uruchamiany z dwoma argumentami!"
+	exit 1
+fi
+
+if [ ! -d $1 ] ;then
+	echo "Błędny pierwszy katalog!"
+	exit 1
+fi
+
+if [ ! -d $2 ] ;then
+	echo "Błędny drugi katalog!"
+	exit 1
+fi
+
+mkdir $2/$1
+
+for plik in `ls $1` ;do
+
+		if [ -L $1/$plik ] ;then
+			ln -s `readlink -f $1/$plik` $2/$1/$plik
+		fi
+		
+		if [ ! -L $1/$plik ] ;then
+			cp $1/$plik $2/$1/$plik
+		fi
+
+done

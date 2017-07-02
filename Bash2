@@ -1,0 +1,25 @@
+#! /bin/bash
+#W zadanym katalogu przerobić dowiązania twarde do plików regularnych w tym samym katalogu na dowiązania symboliczne
+if [ "$#" != "1" ] ;then
+	echo "Skrypt uruchamiany z jednym argumentem!"
+	exit 1
+fi
+
+if [ ! -d $1 ] ;then
+	echo "Błędny katalog!"
+	exit 1
+fi
+
+for plik in `ls $1` ;do
+
+	for plik2 in `ls $1`; do
+	
+	if [ $1/$plik -ef $1/$plik2 -a "$plik" != "$plik2"  ] ;then
+		if [ ! -L $1/$plik2 -a ! -L $1/$plik1 ] ;then	
+			ln -s -f  $plik2  $1/$plik
+		fi
+	fi
+
+	done
+
+done
